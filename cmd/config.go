@@ -12,10 +12,10 @@ import (
 var configCmd = &cobra.Command{
 	Use:   "config",
 	Short: "Configure DeployX",
-	Run:   runCommand,
+	Run:   runConfig,
 }
 
-func runCommand(cmd *cobra.Command, args []string) {
+func runConfig(cmd *cobra.Command, args []string) {
 	color.Blue("Welcome in DeployX configuration! 🛠")
 	// Create blank Config
 	config := model.Config{}

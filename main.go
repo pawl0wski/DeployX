@@ -22,6 +22,6 @@ func initializeDatabase() {
 
 	err = database.DBConn.AutoMigrate(&model.Config{})
 	if err != nil {
-		panic("Can't migrate Config")
+		panic("Can't migrate CreateConfig")
 	}
 }

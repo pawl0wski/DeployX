@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"DeployX/model"
+	"DeployX/repository"
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -18,7 +19,8 @@ func runCommand(cmd *cobra.Command, args []string) {
 	color.Blue("Welcome in DeployX configuration! 🛠")
 	// Create blank Config
 	config := model.Config{}
-	config.TextEditor = selectTextEditor([]string{"vi", "nano", "code"})
+	config.TextEditor = selectTextEditor([]string{"vi", "nano", "code", "gedit", "kate"})
+	repository.UpdateConfig(&config)
 }
 
 func selectTextEditor(choices []string) string {

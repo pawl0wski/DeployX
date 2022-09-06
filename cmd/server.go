@@ -9,7 +9,7 @@ import (
 var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Run DeployX server",
-	Run:   runConfig,
+	Run:   runServer,
 }
 
 func runServer(cmd *cobra.Command, args []string) {

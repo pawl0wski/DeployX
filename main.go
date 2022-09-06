@@ -2,24 +2,26 @@ package main
 
 import (
 	"DeployX/cmd"
+	"DeployX/database"
 	"DeployX/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
+func main() {
+	initializeDatabase()
+	cmd.Execute()
+}
+
 func initializeDatabase() {
-	db, err := gorm.Open(sqlite.Open("deployx.db"), &gorm.Config{})
+	var err error
+	database.DBConn, err = gorm.Open(sqlite.Open("deployx.db"), &gorm.Config{})
 	if err != nil {
 		panic("Can't open database")
 	}
 
-	err = db.AutoMigrate(&models.Config{})
+	err = database.DBConn.AutoMigrate(&models.Config{})
 	if err != nil {
 		panic("Can't migrate Config")
 	}
-}
-
-func main() {
-	initializeDatabase()
-	cmd.Execute()
 }

@@ -7,12 +7,12 @@ import (
 
 type Config struct {
 	gorm.Model
-	TextEditor         string `json:"string_editor"`
-	ServerPort         uint   `json:"server_port"`
-	FirstOpenTimestamp int64  `json:"first_open_timestamp"`
+	TextEditor                  string `json:"string_editor"`
+	ServerPort                  uint   `json:"server_port"`
+	FirstConfigurationTimestamp int64  `json:"first_configuration_timestamp"`
 }
 
-func (c *Config) SetFirstOpenToNow() {
+func (c *Config) SetFirstConfigurationToNow() {
 	currentUnixTimestamp := time.Now().Unix()
-	c.FirstOpenTimestamp = currentUnixTimestamp
+	c.FirstConfigurationTimestamp = currentUnixTimestamp
 }

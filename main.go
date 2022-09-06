@@ -3,7 +3,7 @@ package main
 import (
 	"DeployX/cmd"
 	"DeployX/database"
-	"DeployX/models"
+	"DeployX/model"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -20,7 +20,7 @@ func initializeDatabase() {
 		panic("Can't open database")
 	}
 
-	err = database.DBConn.AutoMigrate(&models.Config{})
+	err = database.DBConn.AutoMigrate(&model.Config{})
 	if err != nil {
 		panic("Can't migrate Config")
 	}

@@ -1,6 +1,8 @@
-package models
+package model
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Config struct {
 	gorm.Model

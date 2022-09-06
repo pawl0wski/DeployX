@@ -1,7 +1,9 @@
 package cmd
 
 import (
-	"fmt"
+	"DeployX/model"
+	"github.com/fatih/color"
+	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +15,19 @@ var configCmd = &cobra.Command{
 }
 
 func runCommand(cmd *cobra.Command, args []string) {
-	fmt.Println("Welcome in DeployX configuration! 🛠")
+	color.Blue("Welcome in DeployX configuration! 🛠")
+	// Create blank Config
+	config := model.Config{}
+	config.TextEditor = selectTextEditor([]string{"vi", "nano", "code"})
+}
+
+func selectTextEditor(choices []string) string {
+	prompt := promptui.Select{Label: "Select your favorite text editor 🗒", Items: choices}
+	_, result, err := prompt.Run()
+	if err != nil {
+		panic("Can't get your favorite text editor")
+	}
+	return result
 }
 
 func init() {

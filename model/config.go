@@ -16,3 +16,7 @@ func (c *Config) SetFirstConfigurationToNow() {
 	currentUnixTimestamp := time.Now().Unix()
 	c.FirstConfigurationTimestamp = currentUnixTimestamp
 }
+
+func (c *Config) WasConfiguredBefore() bool {
+	return c.FirstConfigurationTimestamp != 0
+}

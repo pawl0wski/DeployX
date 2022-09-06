@@ -1,2 +1,6 @@
-.idea/
+.idea
+.code
 DeployX.iml
+
+# Sqlite databases
+*.db

@@ -8,7 +8,7 @@ import (
 type Config struct {
 	gorm.Model
 	TextEditor string `json:"string_editor"`
-	ServerPort uint   `json:"server_port"`
+	ServerPort uint16 `json:"server_port"`
 }
 
 func (config *Config) Save() {

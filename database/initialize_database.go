@@ -1,8 +1,10 @@
 package database
 
 import (
+	"fmt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"reflect"
 )
 
 func Initialize(databasePath string) {
@@ -20,6 +22,6 @@ func Initialize(databasePath string) {
 func InitializeModel(model interface{}) {
 	err := DBConn.AutoMigrate(model)
 	if err != nil {
-		panic("Can't migrate CreateConfig")
+		panic(fmt.Sprintf("Can't migrate %s", reflect.TypeOf(model)))
 	}
 }

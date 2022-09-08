@@ -19,6 +19,6 @@ func (config *Config) GetFromDatabaseOrCreate() {
 	database.DBConn.FirstOrCreate(config)
 }
 
-func InitializeConfig() {
+func init() {
 	database.InitializeModel(Config{})
 }

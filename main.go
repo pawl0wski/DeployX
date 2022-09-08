@@ -6,11 +6,6 @@ import (
 )
 
 func main() {
-	initializeDatabase()
-	cmd.Execute()
-}
-
-func initializeDatabase() {
 	database.Initialize("deployx.db")
-	models.InitializeConfig()
+	cmd.Execute()
 }

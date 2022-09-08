@@ -18,6 +18,7 @@ func runCreateProject(cmd *cobra.Command, args []string) {
 	color.Blue("Project creator")
 	project := models.Project{}
 	editors.EditProject(&project)
+	project.Create()
 }
 
 func init() {

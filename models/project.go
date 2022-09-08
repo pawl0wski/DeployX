@@ -13,6 +13,14 @@ type Project struct {
 	Password string `json:"password"`
 }
 
+func (project *Project) Save() {
+	database.DBConn.Updates(project)
+}
+
+func (project *Project) Create() {
+	database.DBConn.Create(project)
+}
+
 func (project *Project) SetPassword(password string) {
 	project.Password = modules.HashPassword(password)
 }

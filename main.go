@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	database.Database("deployx.db")
+	database.Initialize("deployx.db")
 	cmd.Execute()
 }

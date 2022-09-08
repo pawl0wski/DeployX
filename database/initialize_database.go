@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Database(databasePath string) {
+func Initialize(databasePath string) {
 	if databasePath == "" {
 		databasePath = ":memory:"
 	}

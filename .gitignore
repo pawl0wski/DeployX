@@ -4,3 +4,6 @@ DeployX.iml
 
 # Sqlite databases
 *.db
+
+# Builded executable
+main

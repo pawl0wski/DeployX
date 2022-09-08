@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"DeployX/models"
+	"errors"
+	"fmt"
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -35,12 +37,19 @@ func selectTextEditor(choices []string) string {
 }
 
 func getServerPort() uint16 {
-	prompt := promptui.Prompt{Label: "Server port", Default: "7777"}
+	validator := func(input string) error {
+		_, err := strconv.ParseUint(input, 10, 16)
+		if err != nil {
+			return errors.New(fmt.Sprintf("%s is not valid port", input))
+		}
+		return nil
+	}
+	prompt := promptui.Prompt{Label: "Server port", Default: "7777", Validate: validator}
 	result, err := prompt.Run()
 	if err != nil {
 		panic("Can't get server port")
 	}
-	port, err := strconv.ParseUint(result, 10, 32)
+	port, err := strconv.ParseUint(result, 10, 16)
 	if err != nil {
 		panic("Invalid port")
 	}

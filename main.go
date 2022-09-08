@@ -14,4 +14,5 @@ func main() {
 func initializeDatabaseAndModels() {
 	database.Initialize("deployx.db")
 	models.InitializeConfig()
+	models.InitializeProject()
 }

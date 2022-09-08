@@ -1,13 +1,10 @@
 package cmd
 
 import (
+	"DeployX/editors"
 	"DeployX/models"
-	"errors"
-	"fmt"
 	"github.com/fatih/color"
-	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 // createProjectCmd represents the createProject command
@@ -20,43 +17,7 @@ var createProjectCmd = &cobra.Command{
 func runCreateProject(cmd *cobra.Command, args []string) {
 	color.Blue("Project creator")
 	project := models.Project{}
-	project.Name = getProjectName()
-	project.Path = getPath()
-	project.SetPassword(getPassword())
-}
-
-func getProjectName() string {
-	prompt := promptui.Prompt{Label: "Name"}
-	result, err := prompt.Run()
-	if err != nil {
-		panic("Can't get project's name")
-	}
-	return result
-}
-
-func getPath() string {
-	validator := func(input string) error {
-		_, err := os.Stat(input)
-		if err != nil {
-			return errors.New(fmt.Sprintf("path \"%s\" not exist", input))
-		}
-		return nil
-	}
-	prompt := promptui.Prompt{Label: "Path", Validate: validator}
-	result, err := prompt.Run()
-	if err != nil {
-		panic("Can't get project's path")
-	}
-	return result
-}
-
-func getPassword() string {
-	prompt := promptui.Prompt{Label: "Password", HideEntered: true}
-	result, err := prompt.Run()
-	if err != nil {
-		panic("Can't get password")
-	}
-	return result
+	editors.EditProject(&project)
 }
 
 func init() {

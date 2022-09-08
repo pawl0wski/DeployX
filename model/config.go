@@ -11,12 +11,11 @@ type Config struct {
 	ServerPort uint   `json:"server_port"`
 }
 
-func (config *Config) Update() {
+func (config *Config) Save() {
 	database.DBConn.Updates(config)
 }
 
-// Refresh Config with values from database
-func (config *Config) Refresh() {
+func (config *Config) GetFromDatabaseOrCreate() {
 	database.DBConn.FirstOrCreate(config)
 }
 

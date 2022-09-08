@@ -18,9 +18,9 @@ func runConfig(cmd *cobra.Command, args []string) {
 	color.Blue("Welcome in DeployX configuration! 🛠")
 	// Get Config from database
 	config := model.Config{}
-	config.Refresh()
+	config.GetFromDatabaseOrCreate()
 	config.TextEditor = selectTextEditor([]string{"vi", "nano", "code", "gedit", "kate"})
-	config.Update()
+	config.Save()
 }
 
 func selectTextEditor(choices []string) string {

@@ -19,3 +19,7 @@ func (config *Config) Update() {
 func (config *Config) Refresh() {
 	database.DBConn.FirstOrCreate(config)
 }
+
+func InitializeConfig() {
+	database.InitializeModel(Config{})
+}

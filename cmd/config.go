@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"DeployX/database"
 	"DeployX/model"
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
@@ -17,10 +16,11 @@ var configCmd = &cobra.Command{
 
 func runConfig(cmd *cobra.Command, args []string) {
 	color.Blue("Welcome in DeployX configuration! 🛠")
-	// Create blank Config
+	// Get Config from database
 	config := model.Config{}
+	config.Refresh()
 	config.TextEditor = selectTextEditor([]string{"vi", "nano", "code", "gedit", "kate"})
-	database.UpdateConfig(&config)
+	config.Update()
 }
 
 func selectTextEditor(choices []string) string {

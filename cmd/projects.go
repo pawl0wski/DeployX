@@ -3,6 +3,7 @@ package cmd
 import (
 	"DeployX/models"
 	"fmt"
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +18,9 @@ func runProjects(cmd *cobra.Command, args []string) {
 	fmt.Println("Projects:")
 	projects := models.GetAllProjects()
 	for _, project := range projects {
-		fmt.Printf("- %d: %s\n", project.ID, project.Name)
+		color.Green(" %s\n", project.Name)
+		fmt.Printf("  - id: %d\n", project.ID)
+		fmt.Printf("  - path: %s\n", project.Path)
 	}
 }
 

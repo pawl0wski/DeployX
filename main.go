@@ -3,7 +3,6 @@ package main
 import (
 	"DeployX/cmd"
 	"DeployX/database"
-	"DeployX/model"
 )
 
 func main() {
@@ -13,5 +12,5 @@ func main() {
 
 func initializeDatabase() {
 	database.Initialize("deployx.db")
-	model.InitializeConfig()
+	models.InitializeConfig()
 }

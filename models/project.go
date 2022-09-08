@@ -2,7 +2,7 @@ package models
 
 import (
 	"DeployX/database"
-	"crypto/sha256"
+	"DeployX/modules"
 	"gorm.io/gorm"
 )
 
@@ -14,9 +14,11 @@ type Project struct {
 }
 
 func (project *Project) SetPassword(password string) {
-	hasher := sha256.New()
-	hashedPassword := hasher.Sum([]byte(password))
-	project.Password = string(hashedPassword)
+	project.Password = modules.HashPassword(password)
+}
+
+func (project *Project) ValidatePassword(password string) bool {
+	return project.Password == modules.HashPassword(password)
 }
 
 func InitializeProject() {

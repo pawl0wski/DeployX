@@ -21,6 +21,12 @@ func (project *Project) ValidatePassword(password string) bool {
 	return project.Password == modules.HashPassword(password)
 }
 
+func GetAllProjects() []Project {
+	var projects []Project
+	database.DBConn.Find(&projects)
+	return projects
+}
+
 func InitializeProject() {
 	database.InitializeModel(Project{})
 }

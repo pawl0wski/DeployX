@@ -18,7 +18,7 @@ var configCmd = &cobra.Command{
 }
 
 func runConfig(cmd *cobra.Command, args []string) {
-	color.Blue("Welcome in DeployX configuration! 🛠")
+	color.Green("Welcome in DeployX configuration! 🛠")
 	// Get Config from database
 	config := models.Config{}
 	config.GetFromDatabaseOrCreate()

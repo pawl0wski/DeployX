@@ -2,10 +2,10 @@ package main
 
 import (
 	"DeployX/cmd"
-	"DeployX/initialize"
+	"DeployX/database"
 )
 
 func main() {
-	initialize.Database("deployx.db")
+	database.Database("deployx.db")
 	cmd.Execute()
 }

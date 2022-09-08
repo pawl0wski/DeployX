@@ -1,9 +1,13 @@
 package modules
 
-import "crypto/sha256"
+import (
+	"crypto/sha256"
+	"fmt"
+)
 
 func HashPassword(password string) string {
 	hasher := sha256.New()
-	hashedPassword := hasher.Sum([]byte(password))
-	return string(hashedPassword)
+	hasher.Write([]byte(password))
+	hashedPassword := hasher.Sum(nil)
+	return fmt.Sprintf("%x", hashedPassword)
 }

@@ -11,14 +11,23 @@ type Config struct {
 	ServerPort uint16 `json:"server_port"`
 }
 
+func init() {
+	database.InitializeModel(Config{})
+}
+
+// Save saves config in database
 func (config *Config) Save() {
 	database.DBConn.Updates(config)
 }
 
+// GetFromDatabaseOrCreate update Config struct with data from database or create new Config in database
 func (config *Config) GetFromDatabaseOrCreate() {
 	database.DBConn.FirstOrCreate(config)
 }
 
-func init() {
-	database.InitializeModel(Config{})
+// DoesConfigExist return true if config exist in database
+func DoesConfigExist() bool {
+	var howMuchConfigs int64
+	database.DBConn.Table("configs").Count(&howMuchConfigs)
+	return howMuchConfigs > 0
 }

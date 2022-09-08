@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"DeployX/database"
+	"DeployX/models"
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +13,7 @@ var serverCmd = &cobra.Command{
 }
 
 func runServer(cmd *cobra.Command, args []string) {
-	if !database.CheckIfConfigExist() {
+	if models.DoesConfigExist() {
 		runConfig(cmd, args)
 	}
 }

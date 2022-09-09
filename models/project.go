@@ -35,6 +35,12 @@ func GetAllProjects() []Project {
 	return projects
 }
 
+func GetProjectById(id uint64) Project {
+	var project Project
+	database.DBConn.First(&project, id)
+	return project
+}
+
 func InitializeProject() {
 	database.InitializeModel(Project{})
 }

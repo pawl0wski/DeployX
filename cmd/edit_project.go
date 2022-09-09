@@ -1,8 +1,8 @@
 package cmd
 
 import (
+	"DeployX/editors"
 	"DeployX/models"
-	"fmt"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"os"
@@ -19,7 +19,8 @@ var editProjectCmd = &cobra.Command{
 
 func runEditProject(cmd *cobra.Command, args []string) {
 	project := validateArgAndReturnProject(args)
-	fmt.Println(project.ID)
+	editors.EditProject(&project)
+	project.Save()
 }
 
 func validateArgAndReturnProject(args []string) models.Project {

@@ -8,11 +8,13 @@ import (
 
 type Project struct {
 	gorm.Model
-	Name               string `json:"name"`
-	Path               string `json:"path"`
-	Password           string `json:"password"`
-	BeforeDeployScript Script `json:"before_deploy_script"`
-	AfterDeployScript  Script `json:"after_deploy_script"`
+	Name                 string `json:"name"`
+	Path                 string `json:"path"`
+	Password             string `json:"password"`
+	BeforeDeployScript   Script `json:"before_deploy_script" gorm:"foreignKey:BeforeDeployScriptID"`
+	BeforeDeployScriptID int    `json:"before_deploy_script_id"`
+	AfterDeployScript    Script `json:"after_deploy_script" gorm:"foreignKey:AfterDeployScriptID"`
+	AfterDeployScriptID  int    `json:"after_deploy_script_id"`
 }
 
 func (project *Project) Save() {

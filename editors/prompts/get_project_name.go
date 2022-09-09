@@ -2,14 +2,15 @@ package prompts
 
 import (
 	"DeployX/models"
-	"github.com/manifoldco/promptui"
+	"github.com/AlecAivazis/survey/v2"
 )
 
 func GetProjectName(project *models.Project) string {
-	prompt := promptui.Prompt{Label: "Name", Default: project.Name}
-	result, err := prompt.Run()
+	prompt := &survey.Input{Message: "Name", Default: project.Name}
+	var name string
+	err := survey.AskOne(prompt, &name)
 	if err != nil {
 		panic("Can't get project's name")
 	}
-	return result
+	return name
 }

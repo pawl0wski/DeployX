@@ -4,23 +4,25 @@ import (
 	"DeployX/models"
 	"errors"
 	"fmt"
-	"github.com/manifoldco/promptui"
+	"github.com/AlecAivazis/survey/v2"
 	"os"
 )
 
 func GetProjectPath(project *models.Project) string {
-	prompt := promptui.Prompt{Label: "Path", Validate: validateProjectPath, Default: project.Path}
-	result, err := prompt.Run()
+	prompt := &survey.Input{Message: "Path", Default: project.Path}
+	var projectPath string
+	err := survey.AskOne(prompt, &projectPath, survey.WithValidator(validateProjectPath))
 	if err != nil {
 		panic("Can't get project's path")
 	}
-	return result
+	return projectPath
 }
 
-func validateProjectPath(input string) error {
-	_, err := os.Stat(input)
+func validateProjectPath(val interface{}) error {
+	projectPath := convertValToString(val)
+	_, err := os.Stat(projectPath)
 	if err != nil {
-		return errors.New(fmt.Sprintf("path \"%s\" not exist", input))
+		return errors.New(fmt.Sprintf("path \"%s\" not exist", val))
 	}
 	return nil
 }

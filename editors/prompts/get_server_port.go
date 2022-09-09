@@ -4,7 +4,7 @@ import (
 	"DeployX/models"
 	"errors"
 	"fmt"
-	"github.com/manifoldco/promptui"
+	"github.com/AlecAivazis/survey/v2"
 	"strconv"
 )
 
@@ -12,22 +12,24 @@ func GetServerPort(config *models.Config) uint16 {
 	if config.ServerPort == 0 {
 		config.ServerPort = 7777
 	}
-	prompt := promptui.Prompt{Label: "Server port", Default: strconv.Itoa(int(config.ServerPort)), Validate: validateServerPort}
-	result, err := prompt.Run()
+	prompt := &survey.Input{Message: "Server port", Default: strconv.Itoa(int(config.ServerPort))}
+	var serverPortAsString string
+	err := survey.AskOne(prompt, &serverPortAsString, survey.WithValidator(validateServerPort))
 	if err != nil {
 		panic("Can't get server port")
 	}
-	port, err := strconv.ParseUint(result, 10, 16)
+	port, err := strconv.ParseUint(serverPortAsString, 10, 16)
 	if err != nil {
 		panic("Invalid port")
 	}
 	return uint16(port)
 }
 
-func validateServerPort(input string) error {
-	_, err := strconv.ParseUint(input, 10, 16)
+func validateServerPort(val interface{}) error {
+	serverPort := convertValToString(val)
+	_, err := strconv.ParseUint(serverPort, 10, 16)
 	if err != nil {
-		return errors.New(fmt.Sprintf("%s is not valid port", input))
+		return errors.New(fmt.Sprintf("%s is not valid port", serverPort))
 	}
 	return nil
 }

@@ -1,14 +1,15 @@
 package prompts
 
 import (
-	"github.com/manifoldco/promptui"
+	"github.com/AlecAivazis/survey/v2"
 )
 
 func SelectDebugMode() bool {
-	prompt := promptui.Select{Label: "Enable debug mode", Items: []string{"no", "yes"}}
-	_, choice, err := prompt.Run()
+	prompt := &survey.Confirm{Message: "Enable debug mode"}
+	var choice bool
+	err := survey.AskOne(prompt, &choice)
 	if err != nil {
 		panic("Can't get debug mode")
 	}
-	return choice == "yes"
+	return choice
 }

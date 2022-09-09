@@ -1,12 +1,15 @@
 package prompts
 
-import "github.com/manifoldco/promptui"
+import (
+	"github.com/AlecAivazis/survey/v2"
+)
 
 func GetProjectPassword() string {
-	prompt := promptui.Prompt{Label: "Password", HideEntered: true}
-	result, err := prompt.Run()
+	prompt := &survey.Password{Message: "Password"}
+	var password string
+	err := survey.AskOne(prompt, &password)
 	if err != nil {
 		panic("Can't get password")
 	}
-	return result
+	return password
 }

@@ -8,9 +8,11 @@ import (
 
 type Project struct {
 	gorm.Model
-	Name     string `json:"name"`
-	Path     string `json:"path"`
-	Password string `json:"password"`
+	Name               string `json:"name"`
+	Path               string `json:"path"`
+	Password           string `json:"password"`
+	BeforeDeployScript Script `json:"before_deploy_script"`
+	AfterDeployScript  Script `json:"after_deploy_script"`
 }
 
 func (project *Project) Save() {

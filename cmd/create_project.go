@@ -3,7 +3,6 @@ package cmd
 import (
 	"DeployX/editors"
 	"DeployX/models"
-	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +14,6 @@ var createProjectCmd = &cobra.Command{
 }
 
 func runCreateProject(cmd *cobra.Command, args []string) {
-	color.Blue("Project creator")
 	project := models.Project{}
 	editors.EditProject(&project)
 	project.Create()

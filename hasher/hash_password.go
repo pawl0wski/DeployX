@@ -1,4 +1,4 @@
-package modules
+package hasher
 
 import (
 	"crypto/sha256"

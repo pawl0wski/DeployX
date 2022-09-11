@@ -2,7 +2,7 @@ package models
 
 import (
 	"DeployX/database"
-	"DeployX/modules"
+	"DeployX/hasher"
 	"gorm.io/gorm"
 )
 
@@ -26,11 +26,11 @@ func (project *Project) Create() {
 }
 
 func (project *Project) SetPassword(password string) {
-	project.Password = modules.HashPassword(password)
+	project.Password = hasher.HashPassword(password)
 }
 
 func (project *Project) ValidatePassword(password string) bool {
-	return project.Password == modules.HashPassword(password)
+	return project.Password == hasher.HashPassword(password)
 }
 
 func GetAllProjects() []Project {

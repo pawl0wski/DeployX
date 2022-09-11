@@ -1,8 +1,8 @@
 package temp_test
 
 import (
-	"DeployX/models"
 	"DeployX/temp"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
@@ -10,9 +10,9 @@ import (
 
 func TestScriptFileCreator(t *testing.T) {
 	testContent := "TestContent"
-	testScript := models.Script{Content: testContent}
 
-	tempScriptFile := temp.ScriptFileCreator(&testScript)
+	tempScriptFile := temp.FileCreator(testContent)
+	defer removeTestFile(tempScriptFile)
 
 	assert.Equal(t, testContent, readContentFromFile(tempScriptFile))
 }
@@ -23,4 +23,16 @@ func readContentFromFile(file *os.File) string {
 		panic("Can't read content from file")
 	}
 	return string(byteContent)
+}
+
+func removeTestFile(file *os.File) {
+	fileName := file.Name()
+	err := file.Close()
+	if err != nil {
+		panic(fmt.Sprintf("Can't close %s file", fileName))
+	}
+	err = os.Remove(fileName)
+	if err != nil {
+		panic(fmt.Sprintf("Can't remove %s file", fileName))
+	}
 }

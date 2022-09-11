@@ -1,7 +1,6 @@
 package temp_test
 
 import (
-	"DeployX/models"
 	"DeployX/temp"
 	"fmt"
 	"github.com/stretchr/testify/assert"
@@ -10,13 +9,13 @@ import (
 )
 
 func TestUpdateScriptWithFileData(t *testing.T) {
-	testScriptContent := "TestScriptContent"
-	testScript := models.Script{}
-	testFile := createTestFileAndWriteTestData(testScriptContent)
+	testContent := "TestContent"
+	testFile := createTestFileAndWriteTestData(testContent)
+	defer removeTestFile(testFile)
 
-	temp.UpdateScriptWithFileData(&testScript, testFile)
+	contentFromFunction := temp.GetContentFromTempFile(testFile)
 
-	assert.Equal(t, testScriptContent, testScript.Content)
+	assert.Equal(t, testContent, contentFromFunction)
 }
 
 func createTestFileAndWriteTestData(testData string) *os.File {

@@ -1,12 +1,11 @@
 package temp
 
 import (
-	"DeployX/models"
 	"os"
 )
 
-func UpdateScriptWithFileData(script *models.Script, file *os.File) {
-	script.Content = getFileContentAsString(file)
+func GetContentFromTempFile(file *os.File) string {
+	return getFileContentAsString(file)
 }
 
 func getFileContentAsString(file *os.File) string {

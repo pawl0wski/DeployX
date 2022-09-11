@@ -14,7 +14,7 @@ type Config struct {
 
 // Save saves config in database
 func (config *Config) Save() {
-	database.DBConn.Updates(config)
+	database.DBConn.Save(config)
 }
 
 // GetFromDatabaseOrCreate update Config struct with data from database or create new Config in database

@@ -18,7 +18,7 @@ type Project struct {
 }
 
 func (project *Project) Save() {
-	database.DBConn.Updates(project)
+	database.DBConn.Save(project)
 }
 
 func (project *Project) Create() {

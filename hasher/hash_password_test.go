@@ -1,6 +1,7 @@
 package hasher_test
 
 import (
+	"DeployX/hasher"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

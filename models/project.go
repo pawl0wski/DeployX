@@ -25,6 +25,10 @@ func (project *Project) Create() {
 	database.DBConn.Create(project)
 }
 
+func (project *Project) Delete() {
+	database.DBConn.Delete(project)
+}
+
 func (project *Project) SetPassword(password string) {
 	project.Password = hasher.HashPassword(password)
 }

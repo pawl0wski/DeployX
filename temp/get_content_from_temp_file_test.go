@@ -11,10 +11,11 @@ import (
 func TestUpdateScriptWithFileData(t *testing.T) {
 	testContent := "TestContent"
 	testFile := createTestFileAndWriteTestData(testContent)
-	defer removeTestFile(testFile)
+	defer temp.RemoveFile(testFile)
 
 	contentFromFunction := temp.GetContentFromTempFile(testFile)
 
+	assert.FileExists(t, testFile.Name())
 	assert.Equal(t, testContent, contentFromFunction)
 }
 

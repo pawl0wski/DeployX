@@ -10,6 +10,10 @@ type Script struct {
 	Content string `json:"content"`
 }
 
+func (script *Script) Save() {
+	database.DBConn.Save(script)
+}
+
 func InitializeScript() {
 	database.InitializeModel(Script{})
 }

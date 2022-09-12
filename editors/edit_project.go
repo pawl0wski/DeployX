@@ -2,12 +2,12 @@ package editors
 
 import (
 	"DeployX/models"
-	prompts2 "DeployX/prompts"
+	"DeployX/prompts"
 )
 
 func EditProject(project *models.Project) {
 	printWithEditorColor("Project editor")
-	project.Name = prompts2.GetProjectName(project)
-	project.Path = prompts2.GetProjectPath(project)
-	project.SetPassword(prompts2.GetProjectPassword())
+	project.Name = prompts.GetProjectName(project)
+	project.Path = prompts.GetProjectPath(project)
+	project.SetPassword(prompts.GetProjectPassword())
 }

@@ -1,40 +1,60 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
+	"DeployX/models"
+	"DeployX/temp"
 	"fmt"
-
+	"github.com/AlecAivazis/survey/v2"
 	"github.com/spf13/cobra"
+	"os"
+	"os/exec"
 )
 
 // scriptsCmd represents the scripts command
 var scriptsCmd = &cobra.Command{
 	Use:   "scripts",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Manage scripts",
+	Run:   runScripts,
+}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("scripts called")
-	},
+func runScripts(cmd *cobra.Command, args []string) {
+	project := selectProject()
+	script := askUserWhatScriptToEdit(project)
+	editScriptUsingTextEditorDefinedInConfig(script)
+	script.Save()
+	project.Save()
+}
+
+func askUserWhatScriptToEdit(project *models.Project) *models.Script {
+	prompt := &survey.Select{Options: []string{"Before deployment script", "After deployment script"}}
+	var selection string
+	err := survey.AskOne(prompt, &selection)
+	if err != nil {
+		panic("Can't ask user what script to edit")
+	}
+	var script *models.Script
+	if selection == "Before deployment script" {
+		return &project.BeforeDeployScript
+	} else {
+		return &project.AfterDeployScript
+	}
+	return script
+}
+
+func editScriptUsingTextEditorDefinedInConfig(script *models.Script) {
+	file := temp.FileCreator(script.Content)
+	config := models.Config{}
+	config.GetFromDatabaseOrCreate()
+	textEditorCommand := exec.Command(config.TextEditor, file.Name())
+	textEditorCommand.Stdin = os.Stdin
+	textEditorCommand.Stdout = os.Stdout
+	err := textEditorCommand.Run()
+	if err != nil {
+		panic(fmt.Sprintf("Can't execute %s", config.TextEditor))
+	}
+	script.Content = temp.GetContentFromTempFile(file)
 }
 
 func init() {
 	rootCmd.AddCommand(scriptsCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// scriptsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// scriptsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

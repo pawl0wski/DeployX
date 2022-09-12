@@ -3,11 +3,11 @@ package cmd
 import (
 	"DeployX/editors"
 	"DeployX/models"
+	"DeployX/prompts"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 // projectsCmd represents the projects command
@@ -61,12 +61,12 @@ func createProject() {
 }
 
 func editProject() {
-	project := selectProject()
+	project := prompts.SelectProject()
 	editors.EditProject(project)
 }
 
 func deleteProject() {
-	project := selectProject()
+	project := prompts.SelectProject()
 	prompt := &survey.Confirm{Message: fmt.Sprintf("You sure want to delete %s?", project.Name), Default: false}
 	var decision bool
 	err := survey.AskOne(prompt, &decision)
@@ -75,30 +75,6 @@ func deleteProject() {
 	}
 	project.Delete()
 	color.Green(fmt.Sprintf("Project %s successfuly deleted", project.Name))
-}
-
-func selectProject() *models.Project {
-	projects := models.GetAllProjects()
-	if len(projects) == 0 {
-		color.Red("You don't have any projects. Make one first.")
-		os.Exit(0)
-	}
-	var promptOptions []string
-	for _, project := range projects {
-		promptOptions = append(promptOptions, project.Name)
-	}
-	prompt := &survey.Select{Message: "Pick project", Options: promptOptions}
-	var selectedProjectName string
-	err := survey.AskOne(prompt, &selectedProjectName)
-	if err != nil {
-		panic("Can't select project from user")
-	}
-	for _, project := range projects {
-		if project.Name == selectedProjectName {
-			return &project
-		}
-	}
-	panic("Selected unknown project name")
 }
 
 func init() {

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"DeployX/models"
+	"DeployX/prompts"
 	"DeployX/temp"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
@@ -18,7 +19,7 @@ var scriptsCmd = &cobra.Command{
 }
 
 func runScripts(cmd *cobra.Command, args []string) {
-	project := selectProject()
+	project := prompts.SelectProject()
 	script := askUserWhatScriptToEdit(project)
 	editScriptUsingTextEditorDefinedInConfig(script)
 	script.Save()

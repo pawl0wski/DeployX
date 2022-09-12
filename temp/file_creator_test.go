@@ -1,7 +1,7 @@
 package temp_test
 
 import (
-	"DeployX/temp"
+	"github.com/pawl0wski/DeployX/temp"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

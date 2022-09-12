@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"DeployX/models"
-	"DeployX/prompts"
-	"DeployX/temp"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/pawl0wski/DeployX/models"
+	"github.com/pawl0wski/DeployX/prompts"
+	"github.com/pawl0wski/DeployX/temp"
 	"github.com/spf13/cobra"
 	"os"
 	"os/exec"

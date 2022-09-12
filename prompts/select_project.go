@@ -1,9 +1,9 @@
 package prompts
 
 import (
-	"DeployX/models"
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/fatih/color"
+	"github.com/pawl0wski/DeployX/models"
 	"os"
 )
 

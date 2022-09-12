@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"DeployX/models"
+	"github.com/pawl0wski/DeployX/models"
 	"github.com/spf13/cobra"
 )
 

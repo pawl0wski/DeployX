@@ -1,8 +1,8 @@
 package models
 
 import (
-	"DeployX/database"
-	"DeployX/hasher"
+	"github.com/pawl0wski/DeployX/database"
+	"github.com/pawl0wski/DeployX/hasher"
 	"gorm.io/gorm"
 )
 

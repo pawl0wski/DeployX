@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"DeployX/editors"
-	"DeployX/models"
-	"DeployX/prompts"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/fatih/color"
+	"github.com/pawl0wski/DeployX/editors"
+	"github.com/pawl0wski/DeployX/models"
+	"github.com/pawl0wski/DeployX/prompts"
 	"github.com/spf13/cobra"
 )
 

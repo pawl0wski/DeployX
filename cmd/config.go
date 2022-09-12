@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"DeployX/editors"
-	"DeployX/models"
+	"github.com/pawl0wski/DeployX/editors"
+	"github.com/pawl0wski/DeployX/models"
 	"github.com/spf13/cobra"
 )
 

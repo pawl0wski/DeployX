@@ -1,8 +1,8 @@
 package editors
 
 import (
-	"DeployX/models"
-	"DeployX/prompts"
+	"github.com/pawl0wski/DeployX/models"
+	"github.com/pawl0wski/DeployX/prompts"
 )
 
 func EditProject(project *models.Project) {

@@ -1,8 +1,8 @@
 package temp_test
 
 import (
-	"DeployX/temp"
 	"fmt"
+	"github.com/pawl0wski/DeployX/temp"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"

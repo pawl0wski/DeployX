@@ -1,4 +1,4 @@
-module DeployX
+module github.com/pawl0wski/DeployX
 
 go 1.19
 

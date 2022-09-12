@@ -1,7 +1,7 @@
 package models
 
 import (
-	"DeployX/database"
+	"github.com/pawl0wski/DeployX/database"
 	"gorm.io/gorm"
 )
 

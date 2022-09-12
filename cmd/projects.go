@@ -68,14 +68,11 @@ func editProject() {
 
 func deleteProject() {
 	project := prompts.SelectProject()
-	prompt := &survey.Confirm{Message: fmt.Sprintf("You sure want to delete %s?", project.Name), Default: false}
-	var decision bool
-	err := survey.AskOne(prompt, &decision)
-	if err != nil {
-		panic("The deletion cannot be assured\n\n")
+	decision := prompts.ConfirmDeleteOperation(project.Name)
+	if decision {
+		project.Delete()
+		color.Green(fmt.Sprintf("Project %s successfuly deleted", project.Name))
 	}
-	project.Delete()
-	color.Green(fmt.Sprintf("Project %s successfuly deleted", project.Name))
 }
 
 func init() {

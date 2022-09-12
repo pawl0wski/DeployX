@@ -1,12 +1,11 @@
 package prompts
 
 import (
-	"DeployX/models"
 	"github.com/AlecAivazis/survey/v2"
 )
 
-func GetProjectName(project *models.Project) string {
-	prompt := &survey.Input{Message: "Name", Default: project.Name}
+func GetProjectName(defaultProjectName string) string {
+	prompt := &survey.Input{Message: "Name", Default: defaultProjectName}
 	var name string
 	err := survey.AskOne(prompt, &name)
 	if err != nil {

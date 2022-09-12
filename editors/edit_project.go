@@ -6,8 +6,7 @@ import (
 )
 
 func EditProject(project *models.Project) {
-	printWithEditorColor("Project editor")
-	project.Name = prompts.GetProjectName(project)
-	project.Path = prompts.GetProjectPath(project)
+	project.Name = prompts.GetProjectName(project.Name)
+	project.Path = prompts.GetProjectPath(project.Path)
 	project.SetPassword(prompts.GetProjectPassword())
 }

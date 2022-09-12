@@ -63,6 +63,7 @@ func createProject() {
 func editProject() {
 	project := prompts.SelectProject()
 	editors.EditProject(project)
+	project.Save()
 }
 
 func deleteProject() {

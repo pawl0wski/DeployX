@@ -1,18 +1,17 @@
 package prompts
 
 import (
-	"DeployX/models"
 	"errors"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	"strconv"
 )
 
-func GetServerPort(config *models.Config) uint16 {
-	if config.ServerPort == 0 {
-		config.ServerPort = 7777
+func GetServerPort(defaultPort uint16) uint16 {
+	if defaultPort == 0 {
+		defaultPort = 7777
 	}
-	prompt := &survey.Input{Message: "Server port", Default: strconv.Itoa(int(config.ServerPort))}
+	prompt := &survey.Input{Message: "Server port", Default: strconv.Itoa(int(defaultPort))}
 	var serverPortAsString string
 	err := survey.AskOne(prompt, &serverPortAsString, survey.WithValidator(validateServerPort))
 	if err != nil {

@@ -3,7 +3,7 @@ package prompts
 func convertValToString(val interface{}) string {
 	valAsString, ok := val.(string)
 	if !ok {
-		panic("error while validating value")
+		panic("Can't validate value")
 	}
 	return valAsString
 }

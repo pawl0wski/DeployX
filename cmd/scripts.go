@@ -17,6 +17,7 @@ var scriptsCmd = &cobra.Command{
 func runScripts(cmd *cobra.Command, args []string) {
 	project := prompts.SelectProject()
 	script := prompts.SelectScriptToEdit(project)
+	script.Save() // The script has a default value. Saves here for the default value to be applied
 	editScriptUsingTextEditorDefinedInConfig(script)
 	script.Save()
 	project.Save()

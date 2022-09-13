@@ -7,7 +7,7 @@ import (
 
 type Script struct {
 	gorm.Model
-	Content string `json:"content"`
+	Content string `json:"content" gorm:"default:#!/bin/bash\n"`
 }
 
 func (script *Script) Save() {

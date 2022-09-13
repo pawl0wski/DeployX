@@ -39,7 +39,7 @@ func (project *Project) ValidatePassword(password string) bool {
 
 func GetAllProjects() []Project {
 	var projects []Project
-	database.DBConn.Find(&projects)
+	database.DBConn.Preload("BeforeDeployScript").Preload("AfterDeployScript").Find(&projects)
 	return projects
 }
 

@@ -19,7 +19,7 @@ func getDebugModeFromDatabase(databasePath string) bool {
 
 func getLoggerBasedOnDebugMode(debugMode bool) logger.Interface {
 	if debugMode {
-		return logger.Default.LogMode(logger.Silent)
+		return logger.Default.LogMode(logger.Info)
 	}
-	return logger.Default
+	return logger.Default.LogMode(logger.Silent)
 }

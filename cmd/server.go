@@ -1,6 +1,9 @@
 package cmd
 
 import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/pawl0wski/DeployX/endpoints"
 	"github.com/pawl0wski/DeployX/models"
 	"github.com/spf13/cobra"
 )
@@ -13,8 +16,20 @@ var serverCmd = &cobra.Command{
 }
 
 func runServer(cmd *cobra.Command, args []string) {
-	if models.DoesConfigExist() {
+	if !models.DoesConfigExist() {
 		runConfig(cmd, args)
+	}
+	startHttpServer()
+}
+
+func startHttpServer() {
+	engine := gin.Default()
+	endpoints.InitializeEndpoints(engine)
+	config := models.Config{}
+	config.GetFromDatabaseOrCreate()
+	err := engine.Run(fmt.Sprintf(":%d", config.ServerPort))
+	if err != nil {
+		panic("Can't start HTTP Server")
 	}
 }
 

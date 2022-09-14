@@ -39,17 +39,17 @@ func (project *Project) ValidatePassword(password string) bool {
 	return project.Password == hasher.HashPassword(password)
 }
 
-func preloadAllAssociations(db *gorm.DB) {
-	db.Preload("BeforeDeployScript")
-	db.Preload("AfterDeployScript")
-	db.Preload("DeploymentConfiguration")
-}
-
 func GetAllProjects() []Project {
 	var projects []Project
 	preloadAllAssociations(database.DBConn)
 	database.DBConn.Find(&projects)
 	return projects
+}
+
+func preloadAllAssociations(db *gorm.DB) {
+	db.Preload("BeforeDeployScript")
+	db.Preload("AfterDeployScript")
+	db.Preload("DeploymentConfiguration")
 }
 
 func InitializeProject() {

@@ -23,13 +23,22 @@ func runServer(cmd *cobra.Command, args []string) {
 }
 
 func startHttpServer() {
-	engine := gin.Default()
-	endpoints.InitializeEndpoints(engine)
 	config := models.Config{}
 	config.GetFromDatabaseOrCreate()
+	setGinMode(&config)
+	engine := gin.Default()
+	endpoints.InitializeEndpoints(engine)
 	err := engine.Run(fmt.Sprintf(":%d", config.ServerPort))
 	if err != nil {
 		panic("Can't start HTTP Server")
+	}
+}
+
+func setGinMode(config *models.Config) {
+	if config.DebugMode {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
 	}
 }
 

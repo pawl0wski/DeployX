@@ -41,12 +41,12 @@ func (project *Project) ValidatePassword(password string) bool {
 
 func GetAllProjects() []Project {
 	var projects []Project
-	preloadAllAssociations(database.DBConn)
+	preloadProjectAssociations(database.DBConn)
 	database.DBConn.Find(&projects)
 	return projects
 }
 
-func preloadAllAssociations(db *gorm.DB) {
+func preloadProjectAssociations(db *gorm.DB) {
 	db.Preload("BeforeDeployScript")
 	db.Preload("AfterDeployScript")
 	db.Preload("DeploymentConfiguration")

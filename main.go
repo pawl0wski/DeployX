@@ -15,5 +15,6 @@ func initializeDatabaseAndModels() {
 	database.Initialize("deployx.db")
 	models.InitializeConfig()
 	models.InitializeScript()
+	models.InitializeDeploymentConfiguration()
 	models.InitializeProject()
 }

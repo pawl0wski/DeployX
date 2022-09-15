@@ -17,6 +17,7 @@ type Project struct {
 	AfterDeployScriptID       int                     `json:"after_deploy_script_id"`
 	DeploymentConfiguration   DeploymentConfiguration `json:"deployment_configuration" gorm:"foreignKey:DeploymentConfigurationID"`
 	DeploymentConfigurationID int                     `json:"deployment_configuration_id"`
+	ProjectSnapshots          []ProjectSnapshot       `json:"project_snapshots"`
 }
 
 func (project *Project) Save() {

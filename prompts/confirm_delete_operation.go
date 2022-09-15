@@ -10,7 +10,7 @@ func ConfirmDeleteOperation(whatToDelete string) bool {
 	var decision bool
 	err := survey.AskOne(prompt, &decision)
 	if err != nil {
-		panic("The deletion cannot be assured\n\n")
+		panic("The deletion cannot be assured")
 	}
 	return decision
 }

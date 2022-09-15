@@ -7,10 +7,11 @@ import (
 
 type ProjectSnapshot struct {
 	gorm.Model
-	Version   int     `json:"version"`
-	Data      []byte  `json:"data"`
-	Project   Project `json:"project"`
-	ProjectID int     `json:"project_id"`
+	Version         int     `json:"version"`
+	Data            []byte  `json:"data"`
+	CurrentSnapshot bool    `json:"current_snapshot"`
+	Project         Project `json:"project"`
+	ProjectID       int     `json:"project_id"`
 }
 
 func InitializeProjectSnapshot() {

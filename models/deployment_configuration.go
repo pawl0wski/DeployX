@@ -8,7 +8,7 @@ import (
 type DeploymentConfiguration struct {
 	gorm.Model
 	Instant           bool `json:"instant"`
-	DeployAfter       byte `json:"deploy_after"`
+	DeployAfterHour   byte `json:"deploy_after_hour"`
 	DeployOnMonday    bool `json:"deploy_on_monday"`
 	DeployOnTuesday   bool `json:"deploy_on_tuesday"`
 	DeployOnWednesday bool `json:"deploy_on_wednesday"`

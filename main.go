@@ -17,4 +17,5 @@ func initializeDatabaseAndModels() {
 	models.InitializeScript()
 	models.InitializeDeploymentConfiguration()
 	models.InitializeProject()
+	models.InitializeProjectSnapshot()
 }

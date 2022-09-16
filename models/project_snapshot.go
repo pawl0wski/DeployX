@@ -1,6 +1,8 @@
 package models
 
 import (
+	"encoding/base64"
+	"errors"
 	"github.com/pawl0wski/DeployX/database"
 	"gorm.io/gorm"
 	"strconv"
@@ -9,7 +11,7 @@ import (
 type ProjectSnapshot struct {
 	gorm.Model
 	Version         int     `json:"version"`
-	Data            []byte  `json:"data"`
+	Data            string  `json:"data"`
 	CurrentSnapshot bool    `json:"current_snapshot"`
 	Project         Project `json:"project"`
 	ProjectID       int     `json:"project_id"`
@@ -17,6 +19,15 @@ type ProjectSnapshot struct {
 
 func (snapshot *ProjectSnapshot) Save() {
 	database.DBConn.Save(snapshot)
+}
+
+func (snapshot *ProjectSnapshot) ConvertDataToBinary() ([]byte, error) {
+	encoder := base64.Encoding{}
+	binaryData, err := encoder.DecodeString(snapshot.Data)
+	if err != nil {
+		return nil, errors.New("can't covert data to binary")
+	}
+	return binaryData, nil
 }
 
 func GetLastSnapshotVersionByProjectID(id int) int {

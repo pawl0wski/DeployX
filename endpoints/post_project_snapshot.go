@@ -45,7 +45,7 @@ func createProjectSnapshotFromSnapshotRequest(request *requests.ProjectSnapshotR
 	lastVersion := models.GetLastSnapshotVersionByProjectID(request.ProjectID)
 	snapshot := models.ProjectSnapshot{
 		ProjectID:       request.ProjectID,
-		Data:            request.ConvertDataToBinary(),
+		Data:            request.Data,
 		Version:         lastVersion + 1,
 		CurrentSnapshot: false,
 	}

@@ -32,7 +32,7 @@ func (snapshot *ProjectSnapshot) ConvertDataToBinary() ([]byte, error) {
 
 func GetLastSnapshotVersionByProjectID(id int) int {
 	var snapshot ProjectSnapshot
-	database.DBConn.Where("project_id = ?", []string{strconv.Itoa(int(id))}).Order("version desc").First(&snapshot)
+	database.DBConn.Where("project_id = ?", []string{strconv.Itoa(id)}).Order("version desc").First(&snapshot)
 	return snapshot.Version
 }
 

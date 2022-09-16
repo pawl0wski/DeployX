@@ -19,6 +19,7 @@ func runServer(cmd *cobra.Command, args []string) {
 	if !models.DoesConfigExist() {
 		runConfig(cmd, args)
 	}
+	fmt.Println("Server is running")
 	startHttpServer()
 }
 

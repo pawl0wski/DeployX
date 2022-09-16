@@ -3,6 +3,7 @@ package editors
 import (
 	"github.com/pawl0wski/DeployX/models"
 	"github.com/pawl0wski/DeployX/prompts"
+	"time"
 )
 
 func EditDeploymentConfiguration(configuration *models.DeploymentConfiguration) {
@@ -10,9 +11,9 @@ func EditDeploymentConfiguration(configuration *models.DeploymentConfiguration) 
 	setInstantDeploy(instantDeploy, configuration)
 	if !instantDeploy {
 		deployHour := prompts.SelectDeploymentHour()
-		days := prompts.SelectDeploymentDays()
+		weekdays := prompts.SelectWeekdays(configuration.DeserializeAndReturnWeekdays())
 		setDeployHour(deployHour, configuration)
-		setDeployDays(days, configuration)
+		setDeployDays(weekdays, configuration)
 	}
 }
 
@@ -24,30 +25,6 @@ func setDeployHour(deployHour int, configuration *models.DeploymentConfiguration
 	configuration.DeployAfterHour = deployHour
 }
 
-func setDeployDays(days []string, configuration *models.DeploymentConfiguration) {
-	for _, day := range days {
-		switch day {
-		case "Monday":
-			configuration.DeployOnMonday = true
-			break
-		case "Tuesday":
-			configuration.DeployOnTuesday = true
-			break
-		case "Wednesday":
-			configuration.DeployOnWednesday = true
-			break
-		case "Thursday":
-			configuration.DeployOnThursday = true
-			break
-		case "Friday":
-			configuration.DeployOnFriday = true
-			break
-		case "Saturday":
-			configuration.DeployOnSaturday = true
-			break
-		case "Sunday":
-			configuration.DeployOnSunday = true
-			break
-		}
-	}
+func setDeployDays(weekdays []time.Weekday, configuration *models.DeploymentConfiguration) {
+	configuration.SerializeAndSaveWeekdays(weekdays)
 }

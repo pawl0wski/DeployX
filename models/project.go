@@ -43,9 +43,11 @@ func (project *Project) ValidatePassword(password string) bool {
 
 func GetAllProjects() []Project {
 	var projects []Project
-	preloadProjectAssociations(database.DBConn)
-	database.DBConn.Find(&projects)
+	db := database.DBConn.Model(&Project{})
+	preloadProjectAssociations(db)
+	db.Find(&projects)
 	return projects
+
 }
 
 func GetProjectByID(id int) (Project, error) {

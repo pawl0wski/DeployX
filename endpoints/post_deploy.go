@@ -7,8 +7,8 @@ import (
 	"github.com/pawl0wski/DeployX/models"
 )
 
-func PostProjectSnapshot(c *gin.Context) {
-	snapshotRequest := requests.ProjectSnapshotRequest{}
+func PostDeploy(c *gin.Context) {
+	snapshotRequest := requests.DeployRequest{}
 	err := c.ShouldBindJSON(&snapshotRequest)
 	if err != nil {
 		sendError(c, "An error occurred, please check your client version and try again.", 500)
@@ -24,7 +24,7 @@ func PostProjectSnapshot(c *gin.Context) {
 		sendError(c, "Invalid password.", 401)
 		return
 	}
-	snapshot := createProjectSnapshotFromSnapshotRequest(&snapshotRequest)
+	snapshot := createProjectSnapshotFromDeploy(&snapshotRequest)
 	snapshot.Save()
 }
 
@@ -32,7 +32,7 @@ func sendError(c *gin.Context, errorContent string, errorCode int) {
 	c.String(errorCode, errorContent)
 }
 
-func checkIfThePasswordInTheRequestIsCorrect(request *requests.ProjectSnapshotRequest) (bool, error) {
+func checkIfThePasswordInTheRequestIsCorrect(request *requests.DeployRequest) (bool, error) {
 	project, err := models.GetProjectByID(request.ProjectID)
 	if err != nil {
 		return false, err
@@ -41,7 +41,7 @@ func checkIfThePasswordInTheRequestIsCorrect(request *requests.ProjectSnapshotRe
 	return hashedRequestPassword == project.Password, nil
 }
 
-func createProjectSnapshotFromSnapshotRequest(request *requests.ProjectSnapshotRequest) *models.ProjectSnapshot {
+func createProjectSnapshotFromDeploy(request *requests.DeployRequest) *models.ProjectSnapshot {
 	lastVersion := models.GetLastSnapshotVersionByProjectID(request.ProjectID)
 	snapshot := models.ProjectSnapshot{
 		ProjectID:       request.ProjectID,

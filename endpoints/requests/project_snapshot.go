@@ -3,7 +3,7 @@ package requests
 import "encoding/base64"
 
 type ProjectSnapshotRequest struct {
-	ProjectID       string `json:"project_id"`
+	ProjectID       int    `json:"project_id"`
 	ProjectPassword string `json:"project_password"`
 	Version         string `json:"snapshot_version"`
 	Data            string `json:"data"`

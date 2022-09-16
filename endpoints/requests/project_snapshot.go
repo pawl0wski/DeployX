@@ -5,7 +5,6 @@ import "encoding/base64"
 type ProjectSnapshotRequest struct {
 	ProjectID       int    `json:"project_id"`
 	ProjectPassword string `json:"project_password"`
-	Version         string `json:"snapshot_version"`
 	Data            string `json:"data"`
 }
 

@@ -2,14 +2,12 @@ package prompts
 
 import (
 	"errors"
-	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	"time"
 )
 
 func SelectWeekdays(defaultWeekdays []time.Weekday) []time.Weekday {
 	var selections []string
-	fmt.Println(convertWeekdaysToStrings(defaultWeekdays))
 	prompt := &survey.MultiSelect{
 		Default: convertWeekdaysToStrings(defaultWeekdays),
 		Message: "Set the days on which the project can be deployed",

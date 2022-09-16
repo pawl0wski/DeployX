@@ -7,9 +7,9 @@ import (
 	"strings"
 )
 
-func SelectDeploymentHour() int {
+func SelectDeploymentHour(defaultDeployHour int) int {
 	var stringHour string
-	prompt := &survey.Select{Message: "Deploy at", Options: generateHours()}
+	prompt := &survey.Select{Message: "Deploy at", Options: generateHours(), Default: convertDeployHourToPromptDefault(defaultDeployHour)}
 	err := survey.AskOne(prompt, &stringHour)
 	if err != nil {
 		panic("Can't select deployment hour")
@@ -24,6 +24,13 @@ func SelectDeploymentHour() int {
 		panic(fmt.Sprintf("Can't transform \"%s\" to int", splitHour[0]))
 	}
 	return hour
+}
+
+func convertDeployHourToPromptDefault(deployHour int) string {
+	if deployHour == -1 {
+		return "Any hour"
+	}
+	return fmt.Sprintf("%d:00", deployHour)
 }
 
 func generateHours() []string {

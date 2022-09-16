@@ -10,7 +10,7 @@ func EditDeploymentConfiguration(configuration *models.DeploymentConfiguration) 
 	instantDeploy := prompts.ConfirmInstantDeploy()
 	setInstantDeploy(instantDeploy, configuration)
 	if !instantDeploy {
-		deployHour := prompts.SelectDeploymentHour()
+		deployHour := prompts.SelectDeploymentHour(configuration.DeployAfterHour)
 		weekdays := prompts.SelectWeekdays(configuration.DeserializeAndReturnWeekdays())
 		setDeployHour(deployHour, configuration)
 		setDeployDays(weekdays, configuration)

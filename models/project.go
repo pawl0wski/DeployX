@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"github.com/pawl0wski/DeployX/database"
 	"github.com/pawl0wski/DeployX/hasher"
 	"gorm.io/gorm"
@@ -45,6 +46,17 @@ func GetAllProjects() []Project {
 	preloadProjectAssociations(database.DBConn)
 	database.DBConn.Find(&projects)
 	return projects
+}
+
+func GetProjectByID(id int) (Project, error) {
+	preloadProjectAssociations(database.DBConn)
+	var project Project
+	database.DBConn.Find(&project)
+	projectIDUint := uint(id)
+	if project.ID != projectIDUint {
+		return project, errors.New("there is no project with the given id")
+	}
+	return project, nil
 }
 
 func preloadProjectAssociations(db *gorm.DB) {

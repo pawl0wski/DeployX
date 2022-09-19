@@ -11,25 +11,26 @@ import (
 
 type DeploymentConfiguration struct {
 	gorm.Model
-	Instant          bool   `json:"instant"`
-	DeployAfterHour  int    `json:"deploy_after_hour"`
-	DeployOnWeekdays string `json:"deploy_on_weekdays"`
+	Instant            bool   `json:"instant"`
+	DeployAfterHour    int    `json:"deploy_after_hour"`
+	DeployBeforeHour   int    `json:"deploy_before_hour"`
+	SerializedWeekdays string `json:"serialized_weekdays"`
 }
 
-func (configuration *DeploymentConfiguration) SerializeAndSaveWeekdays(weekdays []time.Weekday) {
+func (configuration *DeploymentConfiguration) SaveWeekdays(weekdays []time.Weekday) {
 	var serializedWeekdays string
 	for _, weekday := range weekdays {
 		serializedWeekdays += fmt.Sprintf("%d,", int(weekday))
 	}
-	configuration.DeployOnWeekdays = strings.TrimRight(serializedWeekdays, ",")
+	configuration.SerializedWeekdays = strings.TrimRight(serializedWeekdays, ",")
 }
 
-func (configuration *DeploymentConfiguration) DeserializeAndReturnWeekdays() []time.Weekday {
+func (configuration *DeploymentConfiguration) GetWeekdays() []time.Weekday {
 	var weekdays []time.Weekday
-	if configuration.DeployOnWeekdays == "" {
+	if configuration.SerializedWeekdays == "" {
 		return weekdays
 	}
-	for _, weekday := range strings.Split(configuration.DeployOnWeekdays, ",") {
+	for _, weekday := range strings.Split(configuration.SerializedWeekdays, ",") {
 		intWeekday, err := strconv.Atoi(weekday)
 		if err != nil {
 			panic(err)
@@ -40,7 +41,7 @@ func (configuration *DeploymentConfiguration) DeserializeAndReturnWeekdays() []t
 }
 
 func (configuration *DeploymentConfiguration) ClearWeekDays() {
-	configuration.DeployOnWeekdays = ""
+	configuration.SerializedWeekdays = ""
 }
 
 func InitializeDeploymentConfiguration() {

@@ -11,11 +11,21 @@ func EditDeploymentConfiguration(configuration *models.DeploymentConfiguration) 
 	instantDeploy := instantDeployPrompt.Run()
 	setInstantDeploy(instantDeploy, configuration)
 	if !instantDeploy {
-		deployHourPrompt := prompts.SelectDeploymentHourPrompt{DefaultDeployHour: configuration.DeployAfterHour}
-		deployHour := deployHourPrompt.Run()
-		weekdaysPrompt := prompts.SelectWeekdaysPrompt{DefaultWeekdays: configuration.DeserializeAndReturnWeekdays()}
+		deployBeforeHour := 0
+		deployAfterHourPrompt := prompts.SelectDeploymentHourPrompt{DefaultDeployHour: configuration.DeployAfterHour, Options: prompts.SelectHourOptions{
+			AllowAnyHour:       true,
+			GenerateHoursAfter: 0,
+			PromptText:         "Deploy after",
+		}}
+		deployAfterHour := deployAfterHourPrompt.Run()
+		if deployAfterHour != -1 {
+			deployBeforeHourPrompt := prompts.SelectDeploymentHourPrompt{DefaultDeployHour: configuration.DeployBeforeHour, Options: prompts.SelectHourOptions{AllowAnyHour: false, GenerateHoursAfter: deployAfterHour, PromptText: "Deploy before"}}
+			deployBeforeHour = deployBeforeHourPrompt.Run()
+		}
+		weekdaysPrompt := prompts.SelectWeekdaysPrompt{DefaultWeekdays: configuration.GetWeekdays()}
 		weekdays := weekdaysPrompt.Run()
-		setDeployHour(deployHour, configuration)
+		setDeployAfterHour(deployAfterHour, configuration)
+		setDeployBeforeHour(deployBeforeHour, configuration)
 		setDeployDays(weekdays, configuration)
 	}
 }
@@ -24,10 +34,14 @@ func setInstantDeploy(instantDeploy bool, configuration *models.DeploymentConfig
 	configuration.Instant = instantDeploy
 }
 
-func setDeployHour(deployHour int, configuration *models.DeploymentConfiguration) {
-	configuration.DeployAfterHour = deployHour
+func setDeployBeforeHour(deployBeforeHour int, configuration *models.DeploymentConfiguration) {
+	configuration.DeployBeforeHour = deployBeforeHour
+}
+
+func setDeployAfterHour(deployAfterHour int, configuration *models.DeploymentConfiguration) {
+	configuration.DeployAfterHour = deployAfterHour
 }
 
 func setDeployDays(weekdays []time.Weekday, configuration *models.DeploymentConfiguration) {
-	configuration.SerializeAndSaveWeekdays(weekdays)
+	configuration.SaveWeekdays(weekdays)
 }

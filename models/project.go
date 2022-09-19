@@ -21,26 +21,27 @@ type Project struct {
 	ProjectSnapshots          []ProjectSnapshot       `json:"project_snapshots"`
 }
 
+// Save updates project in database
 func (project *Project) Save() {
 	database.DBConn.Save(project)
 }
 
-func (project *Project) Create() {
-	database.DBConn.Create(project)
-}
-
+// Delete removes the project from the database
 func (project *Project) Delete() {
 	database.DBConn.Delete(project)
 }
 
+// SetPassword saves the hashed password in the project
 func (project *Project) SetPassword(password string) {
 	project.Password = hasher.HashPassword(password)
 }
 
+// ValidatePassword checks if the given password is consistent with the password that is saved in the project
 func (project *Project) ValidatePassword(password string) bool {
 	return project.Password == hasher.HashPassword(password)
 }
 
+// GetAllProjects provides all projects that are saved in the database
 func GetAllProjects() []Project {
 	var projects []Project
 	db := database.DBConn.Model(&Project{})

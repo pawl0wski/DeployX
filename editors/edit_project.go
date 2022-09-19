@@ -6,9 +6,12 @@ import (
 )
 
 func EditProject(project *models.Project) {
-	project.Name = prompts.GetProjectName(project.Name)
-	project.Path = prompts.GetProjectPath(project.Path)
-	project.SetPassword(prompts.GetProjectPassword())
+	projectNamePrompt := prompts.GetProjectNamePrompt{DefaultProjectName: project.Name}
+	project.Name = projectNamePrompt.Run()
+	projectPathPrompt := prompts.GetProjectPathPrompt{DefaultPath: project.Path}
+	project.Path = projectPathPrompt.Run()
+	projectPasswordPrompt := prompts.GetProjectPasswordPrompt{}
+	project.SetPassword(projectPasswordPrompt.Run())
 	deploymentConfiguration := project.DeploymentConfiguration
 	EditDeploymentConfiguration(&deploymentConfiguration)
 	project.DeploymentConfiguration = deploymentConfiguration

@@ -5,20 +5,23 @@ import (
 	"github.com/pawl0wski/DeployX/prompts/models"
 )
 
-func SelectTextEditor() string {
-	editorsThatAreInstalled := returnOnlyEditorsThatAreInstalled(getDefaultEditors())
-	editorsAsString := convertEditorsToOptions(editorsThatAreInstalled)
+type SelectTextEditorPrompt struct {
+}
+
+func (p SelectTextEditorPrompt) Run() string {
+	editorsThatAreInstalled := p.returnOnlyEditorsThatAreInstalled(p.getDefaultEditors())
+	editorsAsString := p.convertEditorsToOptions(editorsThatAreInstalled)
 	prompt := &survey.Select{Message: "Select your favorite text editor", Options: editorsAsString}
 	var selectedOption string
 	err := survey.AskOne(prompt, &selectedOption)
 	if err != nil {
 		panic("Can't get your favorite text editor")
 	}
-	selectedEditor := convertOptionToEditor(selectedOption, editorsThatAreInstalled)
+	selectedEditor := p.convertOptionToEditor(selectedOption, editorsThatAreInstalled)
 	return selectedEditor.ToString()
 }
 
-func returnOnlyEditorsThatAreInstalled(editors []models.Command) []models.Command {
+func (p SelectTextEditorPrompt) returnOnlyEditorsThatAreInstalled(editors []models.Command) []models.Command {
 	var installedEditors []models.Command
 	for _, editor := range editors {
 		if editor.CheckIfExist() {
@@ -28,7 +31,7 @@ func returnOnlyEditorsThatAreInstalled(editors []models.Command) []models.Comman
 	return installedEditors
 }
 
-func getDefaultEditors() []models.Command {
+func (p SelectTextEditorPrompt) getDefaultEditors() []models.Command {
 	return []models.Command{
 		{Command: "vi"},
 		{Command: "nano"},
@@ -40,7 +43,7 @@ func getDefaultEditors() []models.Command {
 	}
 }
 
-func convertEditorsToOptions(commands []models.Command) []string {
+func (p SelectTextEditorPrompt) convertEditorsToOptions(commands []models.Command) []string {
 	var commandsAsString []string
 	for _, command := range commands {
 		commandsAsString = append(commandsAsString, command.Command)
@@ -48,7 +51,7 @@ func convertEditorsToOptions(commands []models.Command) []string {
 	return commandsAsString
 }
 
-func convertOptionToEditor(selectedOption string, commands []models.Command) models.Command {
+func (p SelectTextEditorPrompt) convertOptionToEditor(selectedOption string, commands []models.Command) models.Command {
 	var selectedCommand models.Command
 	for _, command := range commands {
 		if command.Command == selectedOption {

@@ -6,7 +6,10 @@ import (
 )
 
 func EditConfig(config *models.Config) {
-	config.TextEditor = prompts.SelectTextEditor()
-	config.ServerPort = prompts.GetServerPort(config.ServerPort)
-	config.DebugMode = prompts.SelectDebugMode()
+	textEditorPrompt := prompts.SelectTextEditorPrompt{}
+	config.TextEditor = textEditorPrompt.Run()
+	serverPortPrompt := prompts.GetServerPortPrompt{DefaultPort: config.ServerPort}
+	config.ServerPort = serverPortPrompt.Run()
+	debugModePrompt := prompts.SelectDebugModePrompt{}
+	config.DebugMode = debugModePrompt.Run()
 }

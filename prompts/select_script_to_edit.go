@@ -5,7 +5,11 @@ import (
 	"github.com/pawl0wski/DeployX/models"
 )
 
-func SelectScriptToEdit(project *models.Project) *models.Script {
+type SelectScriptToEditPrompt struct {
+	Project *models.Project
+}
+
+func (p SelectScriptToEditPrompt) Run() *models.Script {
 	prompt := &survey.Select{Message: "What script do you want to edit?", Options: []string{"Before deployment script", "After deployment script"}}
 	var selection string
 	err := survey.AskOne(prompt, &selection)
@@ -14,9 +18,9 @@ func SelectScriptToEdit(project *models.Project) *models.Script {
 	}
 	var script *models.Script
 	if selection == "Before deployment script" {
-		return &project.BeforeDeployScript
+		return &p.Project.BeforeDeployScript
 	} else {
-		return &project.AfterDeployScript
+		return &p.Project.AfterDeployScript
 	}
 	return script
 }

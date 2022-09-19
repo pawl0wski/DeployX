@@ -7,11 +7,14 @@ import (
 )
 
 func EditDeploymentConfiguration(configuration *models.DeploymentConfiguration) {
-	instantDeploy := prompts.ConfirmInstantDeploy()
+	instantDeployPrompt := prompts.ConfirmInstantDeployPrompt{}
+	instantDeploy := instantDeployPrompt.Run()
 	setInstantDeploy(instantDeploy, configuration)
 	if !instantDeploy {
-		deployHour := prompts.SelectDeploymentHour(configuration.DeployAfterHour)
-		weekdays := prompts.SelectWeekdays(configuration.DeserializeAndReturnWeekdays())
+		deployHourPrompt := prompts.SelectDeploymentHourPrompt{DefaultDeployHour: configuration.DeployAfterHour}
+		deployHour := deployHourPrompt.Run()
+		weekdaysPrompt := prompts.SelectWeekdaysPrompt{DefaultWeekdays: configuration.DeserializeAndReturnWeekdays()}
+		weekdays := weekdaysPrompt.Run()
 		setDeployHour(deployHour, configuration)
 		setDeployDays(weekdays, configuration)
 	}

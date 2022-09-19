@@ -4,8 +4,12 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 )
 
-func GetProjectName(defaultProjectName string) string {
-	prompt := &survey.Input{Message: "Name", Default: defaultProjectName}
+type GetProjectNamePrompt struct {
+	DefaultProjectName string
+}
+
+func (p GetProjectNamePrompt) Run() string {
+	prompt := &survey.Input{Message: "Name", Default: p.DefaultProjectName}
 	var name string
 	err := survey.AskOne(prompt, &name)
 	if err != nil {

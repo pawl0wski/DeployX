@@ -61,14 +61,17 @@ func createProject() {
 }
 
 func editProject() {
-	project := prompts.SelectProject()
+	projectPrompt := prompts.SelectProjectPrompt{}
+	project := projectPrompt.Run()
 	editors.EditProject(project)
 	project.Save()
 }
 
 func deleteProject() {
-	project := prompts.SelectProject()
-	decision := prompts.ConfirmDeleteOperation(project.Name)
+	projectPrompt := prompts.SelectProjectPrompt{}
+	project := projectPrompt.Run()
+	confirmDeleteOperationPrompt := prompts.ConfirmDeleteOperationPrompt{WhatToDelete: project.Name}
+	decision := confirmDeleteOperationPrompt.Run()
 	if decision {
 		project.Delete()
 		color.Green(fmt.Sprintf("Project %s successfuly deleted", project.Name))

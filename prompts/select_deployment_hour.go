@@ -7,9 +7,13 @@ import (
 	"strings"
 )
 
-func SelectDeploymentHour(defaultDeployHour int) int {
+type SelectDeploymentHourPrompt struct {
+	DefaultDeployHour int
+}
+
+func (p SelectDeploymentHourPrompt) Run() int {
 	var stringHour string
-	prompt := &survey.Select{Message: "Deploy at", Options: generateHours(), Default: convertDeployHourToPromptDefault(defaultDeployHour)}
+	prompt := &survey.Select{Message: "Deploy at", Options: p.generateHours(), Default: p.convertDeployHourToPromptDefault(p.DefaultDeployHour)}
 	err := survey.AskOne(prompt, &stringHour)
 	if err != nil {
 		panic("Can't select deployment hour")
@@ -26,14 +30,14 @@ func SelectDeploymentHour(defaultDeployHour int) int {
 	return hour
 }
 
-func convertDeployHourToPromptDefault(deployHour int) string {
+func (p SelectDeploymentHourPrompt) convertDeployHourToPromptDefault(deployHour int) string {
 	if deployHour == -1 {
 		return "Any hour"
 	}
 	return fmt.Sprintf("%d:00", deployHour)
 }
 
-func generateHours() []string {
+func (p SelectDeploymentHourPrompt) generateHours() []string {
 	var hours []string
 	hours = append(hours, "Any hour")
 	for i := 0; i < 24; i++ {

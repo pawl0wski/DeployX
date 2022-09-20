@@ -11,13 +11,9 @@ type SelectTextEditorPrompt struct {
 func (p *SelectTextEditorPrompt) Run() string {
 	editorsThatAreInstalled := p.returnOnlyEditorsThatAreInstalled(p.getDefaultEditors())
 	editorsAsString := p.convertEditorsToOptions(editorsThatAreInstalled)
-	prompt := &survey.Select{Message: "Select your favorite text editor", Options: editorsAsString}
-	var selectedOption string
-	err := survey.AskOne(prompt, &selectedOption)
-	if err != nil {
-		panic("Can't get your favorite text editor")
-	}
-	selectedEditor := p.convertOptionToEditor(selectedOption, editorsThatAreInstalled)
+	prompt := p.preparePrompt(editorsAsString)
+	selection := p.askUser(prompt)
+	selectedEditor := p.convertSelectionToEditor(selection, editorsThatAreInstalled)
 	return selectedEditor.ToString()
 }
 
@@ -29,6 +25,27 @@ func (p *SelectTextEditorPrompt) returnOnlyEditorsThatAreInstalled(editors []mod
 		}
 	}
 	return installedEditors
+}
+
+func (p *SelectTextEditorPrompt) convertEditorsToOptions(commands []models.Command) []string {
+	var commandsAsString []string
+	for _, command := range commands {
+		commandsAsString = append(commandsAsString, command.Command)
+	}
+	return commandsAsString
+}
+
+func (p *SelectTextEditorPrompt) preparePrompt(editorsAsString []string) *survey.Select {
+	return &survey.Select{Message: "Select your favorite text editor", Options: editorsAsString}
+}
+
+func (p *SelectTextEditorPrompt) askUser(prompt survey.Prompt) string {
+	var selection string
+	err := survey.AskOne(prompt, &selection)
+	if err != nil {
+		panic("Can't get your favorite text editor")
+	}
+	return selection
 }
 
 func (p *SelectTextEditorPrompt) getDefaultEditors() []models.Command {
@@ -43,15 +60,7 @@ func (p *SelectTextEditorPrompt) getDefaultEditors() []models.Command {
 	}
 }
 
-func (p *SelectTextEditorPrompt) convertEditorsToOptions(commands []models.Command) []string {
-	var commandsAsString []string
-	for _, command := range commands {
-		commandsAsString = append(commandsAsString, command.Command)
-	}
-	return commandsAsString
-}
-
-func (p *SelectTextEditorPrompt) convertOptionToEditor(selectedOption string, commands []models.Command) models.Command {
+func (p *SelectTextEditorPrompt) convertSelectionToEditor(selectedOption string, commands []models.Command) models.Command {
 	var selectedCommand models.Command
 	for _, command := range commands {
 		if command.Command == selectedOption {

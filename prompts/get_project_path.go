@@ -12,13 +12,21 @@ type GetProjectPathPrompt struct {
 }
 
 func (p *GetProjectPathPrompt) Run() string {
-	prompt := &survey.Input{Message: "Path", Default: p.DefaultPath}
-	var projectPath string
-	err := survey.AskOne(prompt, &projectPath, survey.WithValidator(p.validateProjectPath))
+	prompt := p.preparePrompt()
+	return p.askUser(prompt)
+}
+
+func (p *GetProjectPathPrompt) preparePrompt() *survey.Input {
+	return &survey.Input{Message: "Path", Default: p.DefaultPath}
+}
+
+func (p *GetProjectPathPrompt) askUser(prompt *survey.Input) string {
+	var response string
+	err := survey.AskOne(prompt, &response, survey.WithValidator(p.validateProjectPath))
 	if err != nil {
 		panic("Can't get project's path")
 	}
-	return projectPath
+	return response
 }
 
 func (p *GetProjectPathPrompt) validateProjectPath(val interface{}) error {

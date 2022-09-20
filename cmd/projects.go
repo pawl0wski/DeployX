@@ -62,7 +62,7 @@ func createProject() {
 }
 
 func editProject() {
-	projectPrompt := prompts.SelectProjectPrompt{}
+	projectPrompt := prompts.SelectProjectPrompt{Projects: models.GetAllProjects()}
 	project := projectPrompt.Run()
 	editor := editors.ProjectEditor{ProjectToEdit: project}
 	editor.Run()
@@ -70,7 +70,7 @@ func editProject() {
 }
 
 func deleteProject() {
-	projectPrompt := prompts.SelectProjectPrompt{}
+	projectPrompt := prompts.SelectProjectPrompt{Projects: models.GetAllProjects()}
 	project := projectPrompt.Run()
 	confirmDeleteOperationPrompt := prompts.ConfirmDeleteOperationPrompt{WhatToDelete: project.Name}
 	decision := confirmDeleteOperationPrompt.Run()

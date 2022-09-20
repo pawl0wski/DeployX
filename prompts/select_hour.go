@@ -1,6 +1,7 @@
 package prompts
 
 import (
+	"errors"
 	"fmt"
 	"github.com/AlecAivazis/survey/v2"
 	"strconv"
@@ -19,22 +20,38 @@ type SelectDeploymentHourPrompt struct {
 }
 
 func (p *SelectDeploymentHourPrompt) Run() int {
-	var stringHour string
-	prompt := &survey.Select{Message: p.getPromptText(), Options: p.generateHours(), Default: p.convertDeployHourToPromptDefault(p.DefaultDeployHour)}
-	err := survey.AskOne(prompt, &stringHour)
+	prompt := p.preparePrompt()
+	selection := p.askUser(prompt)
+	hour, err := p.convertSelectionToHour(selection)
+	if err != nil {
+		panic(err)
+	}
+	return hour
+}
+
+func (p *SelectDeploymentHourPrompt) preparePrompt() *survey.Select {
+	return &survey.Select{Message: p.getPromptText(), Options: p.generateHours(), Default: p.convertDeployHourToPromptDefault(p.DefaultDeployHour)}
+}
+
+func (p *SelectDeploymentHourPrompt) askUser(prompt *survey.Select) string {
+	var selection string
+	err := survey.AskOne(prompt, &selection)
 	if err != nil {
 		panic("Can't select deployment hour")
 	}
-	if stringHour == "Any hour" {
-		return -1
+	return selection
+}
+
+func (p *SelectDeploymentHourPrompt) convertSelectionToHour(selection string) (int, error) {
+	if selection == "Any hour" {
+		return -1, nil
 	}
-	var splitHour = strings.Split(stringHour, ":")
-	var hour int
-	hour, err = strconv.Atoi(splitHour[0])
+	var splitHour = strings.Split(selection, ":")
+	hour, err := strconv.Atoi(splitHour[0])
 	if err != nil {
-		panic(fmt.Sprintf("Can't transform \"%s\" to int", splitHour[0]))
+		return hour, errors.New(fmt.Sprintf("Can't transform \"%s\" to int", splitHour[0]))
 	}
-	return hour
+	return hour, nil
 }
 
 func (p *SelectDeploymentHourPrompt) convertDeployHourToPromptDefault(deployHour int) string {

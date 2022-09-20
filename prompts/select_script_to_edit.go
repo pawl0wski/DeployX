@@ -9,7 +9,7 @@ type SelectScriptToEditPrompt struct {
 	Project *models.Project
 }
 
-func (p SelectScriptToEditPrompt) Run() *models.Script {
+func (p *SelectScriptToEditPrompt) Run() *models.Script {
 	prompt := &survey.Select{Message: "What script do you want to edit?", Options: []string{"Before deployment script", "After deployment script"}}
 	var selection string
 	err := survey.AskOne(prompt, &selection)

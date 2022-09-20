@@ -11,7 +11,7 @@ type GetServerPortPrompt struct {
 	DefaultPort uint16
 }
 
-func (p GetServerPortPrompt) Run() uint16 {
+func (p *GetServerPortPrompt) Run() uint16 {
 	defaultPort := p.getDefaultPort()
 	prompt := &survey.Input{Message: "Server port", Default: strconv.Itoa(int(defaultPort))}
 	var serverPortAsString string
@@ -26,14 +26,14 @@ func (p GetServerPortPrompt) Run() uint16 {
 	return uint16(port)
 }
 
-func (p GetServerPortPrompt) getDefaultPort() uint16 {
+func (p *GetServerPortPrompt) getDefaultPort() uint16 {
 	if p.DefaultPort == 0 {
 		return 7777
 	}
 	return p.DefaultPort
 }
 
-func (p GetServerPortPrompt) validateServerPort(val interface{}) error {
+func (p *GetServerPortPrompt) validateServerPort(val interface{}) error {
 	serverPort := p.convertValToString(val)
 	_, err := strconv.ParseUint(serverPort, 10, 16)
 	if err != nil {
@@ -42,7 +42,7 @@ func (p GetServerPortPrompt) validateServerPort(val interface{}) error {
 	return nil
 }
 
-func (p GetServerPortPrompt) convertValToString(val interface{}) string {
+func (p *GetServerPortPrompt) convertValToString(val interface{}) string {
 	valAsString, ok := val.(string)
 	if !ok {
 		panic("Can't validate value")

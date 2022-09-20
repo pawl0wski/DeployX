@@ -10,7 +10,7 @@ import (
 type SelectProjectPrompt struct {
 }
 
-func (p SelectProjectPrompt) Run() *models.Project {
+func (p *SelectProjectPrompt) Run() *models.Project {
 	projects := models.GetAllProjects()
 	if len(projects) == 0 {
 		color.Red("You don't have any projects. Make one first.")

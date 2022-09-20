@@ -7,7 +7,7 @@ import (
 type GetProjectPasswordPrompt struct {
 }
 
-func (g GetProjectPasswordPrompt) Run() string {
+func (p *GetProjectPasswordPrompt) Run() string {
 	prompt := &survey.Password{Message: "Password"}
 	var password string
 	err := survey.AskOne(prompt, &password)

@@ -8,7 +8,7 @@ import (
 type SelectTextEditorPrompt struct {
 }
 
-func (p SelectTextEditorPrompt) Run() string {
+func (p *SelectTextEditorPrompt) Run() string {
 	editorsThatAreInstalled := p.returnOnlyEditorsThatAreInstalled(p.getDefaultEditors())
 	editorsAsString := p.convertEditorsToOptions(editorsThatAreInstalled)
 	prompt := &survey.Select{Message: "Select your favorite text editor", Options: editorsAsString}
@@ -21,7 +21,7 @@ func (p SelectTextEditorPrompt) Run() string {
 	return selectedEditor.ToString()
 }
 
-func (p SelectTextEditorPrompt) returnOnlyEditorsThatAreInstalled(editors []models.Command) []models.Command {
+func (p *SelectTextEditorPrompt) returnOnlyEditorsThatAreInstalled(editors []models.Command) []models.Command {
 	var installedEditors []models.Command
 	for _, editor := range editors {
 		if editor.CheckIfExist() {
@@ -31,7 +31,7 @@ func (p SelectTextEditorPrompt) returnOnlyEditorsThatAreInstalled(editors []mode
 	return installedEditors
 }
 
-func (p SelectTextEditorPrompt) getDefaultEditors() []models.Command {
+func (p *SelectTextEditorPrompt) getDefaultEditors() []models.Command {
 	return []models.Command{
 		{Command: "vi"},
 		{Command: "nano"},
@@ -43,7 +43,7 @@ func (p SelectTextEditorPrompt) getDefaultEditors() []models.Command {
 	}
 }
 
-func (p SelectTextEditorPrompt) convertEditorsToOptions(commands []models.Command) []string {
+func (p *SelectTextEditorPrompt) convertEditorsToOptions(commands []models.Command) []string {
 	var commandsAsString []string
 	for _, command := range commands {
 		commandsAsString = append(commandsAsString, command.Command)
@@ -51,7 +51,7 @@ func (p SelectTextEditorPrompt) convertEditorsToOptions(commands []models.Comman
 	return commandsAsString
 }
 
-func (p SelectTextEditorPrompt) convertOptionToEditor(selectedOption string, commands []models.Command) models.Command {
+func (p *SelectTextEditorPrompt) convertOptionToEditor(selectedOption string, commands []models.Command) models.Command {
 	var selectedCommand models.Command
 	for _, command := range commands {
 		if command.Command == selectedOption {

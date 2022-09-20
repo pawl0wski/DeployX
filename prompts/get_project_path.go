@@ -11,7 +11,7 @@ type GetProjectPathPrompt struct {
 	DefaultPath string
 }
 
-func (p GetProjectPathPrompt) Run() string {
+func (p *GetProjectPathPrompt) Run() string {
 	prompt := &survey.Input{Message: "Path", Default: p.DefaultPath}
 	var projectPath string
 	err := survey.AskOne(prompt, &projectPath, survey.WithValidator(p.validateProjectPath))
@@ -21,7 +21,7 @@ func (p GetProjectPathPrompt) Run() string {
 	return projectPath
 }
 
-func (p GetProjectPathPrompt) validateProjectPath(val interface{}) error {
+func (p *GetProjectPathPrompt) validateProjectPath(val interface{}) error {
 	projectPath := p.convertValToString(val)
 	_, err := os.Stat(projectPath)
 	if err != nil {
@@ -30,7 +30,7 @@ func (p GetProjectPathPrompt) validateProjectPath(val interface{}) error {
 	return nil
 }
 
-func (p GetProjectPathPrompt) convertValToString(val interface{}) string {
+func (p *GetProjectPathPrompt) convertValToString(val interface{}) string {
 	valAsString, ok := val.(string)
 	if !ok {
 		panic("Can't validate value")

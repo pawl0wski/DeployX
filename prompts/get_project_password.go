@@ -8,7 +8,15 @@ type GetProjectPasswordPrompt struct {
 }
 
 func (p *GetProjectPasswordPrompt) Run() string {
-	prompt := &survey.Password{Message: "Password"}
+	prompt := p.preparePrompt()
+	return p.askUser(prompt)
+}
+
+func (p *GetProjectPasswordPrompt) preparePrompt() *survey.Password {
+	return &survey.Password{Message: "Password"}
+}
+
+func (p *GetProjectPasswordPrompt) askUser(prompt *survey.Password) string {
 	var password string
 	err := survey.AskOne(prompt, &password)
 	if err != nil {

@@ -17,7 +17,8 @@ func runConfig(cmd *cobra.Command, args []string) {
 	// Get Config from database
 	config := models.Config{}
 	config.GetFromDatabaseOrCreate()
-	editors.EditConfig(&config)
+	editor := editors.ConfigEditor{ConfigToEdit: &config}
+	editor.Run()
 	config.Save()
 }
 

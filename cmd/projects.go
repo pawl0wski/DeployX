@@ -55,7 +55,8 @@ func listAllProjects() {
 
 func createProject() {
 	project := models.Project{}
-	editors.EditProject(&project)
+	editor := editors.ProjectEditor{ProjectToEdit: &project}
+	editor.Run()
 	project.Save()
 	color.Green("Your new project will have ID %d", project.ID)
 }
@@ -63,7 +64,8 @@ func createProject() {
 func editProject() {
 	projectPrompt := prompts.SelectProjectPrompt{}
 	project := projectPrompt.Run()
-	editors.EditProject(project)
+	editor := editors.ProjectEditor{ProjectToEdit: project}
+	editor.Run()
 	project.Save()
 }
 

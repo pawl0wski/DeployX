@@ -10,7 +10,15 @@ type ConfirmDeleteOperationPrompt struct {
 }
 
 func (p *ConfirmDeleteOperationPrompt) Run() bool {
-	prompt := &survey.Confirm{Message: fmt.Sprintf("You sure want to delete %s?", p.WhatToDelete), Default: false}
+	prompt := p.preparePrompt()
+	return p.askUser(prompt)
+}
+
+func (p *ConfirmDeleteOperationPrompt) preparePrompt() *survey.Confirm {
+	return &survey.Confirm{Message: fmt.Sprintf("You sure want to delete %s?", p.WhatToDelete), Default: false}
+}
+
+func (p *ConfirmDeleteOperationPrompt) askUser(prompt *survey.Confirm) bool {
 	var decision bool
 	err := survey.AskOne(prompt, &decision)
 	if err != nil {

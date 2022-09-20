@@ -11,18 +11,9 @@ type SelectWeekdaysPrompt struct {
 }
 
 func (p *SelectWeekdaysPrompt) Run() []time.Weekday {
-	var selections []string
-	prompt := &survey.MultiSelect{
-		Default: p.convertWeekdaysToStrings(p.DefaultWeekdays),
-		Message: "Set the days on which the project can be deployed",
-		Options: p.convertWeekdaysToStrings(p.generateWeekdays()),
-	}
-	err := survey.AskOne(prompt, &selections)
-	if err != nil {
-		panic("Can't ask for days")
-	}
-	var selectedWeekdays []time.Weekday
-	selectedWeekdays, err = p.convertWeekdayStringsToWeekdays(selections)
+	prompt := p.preparePrompt()
+	selections := p.askUser(prompt)
+	selectedWeekdays, err := p.convertWeekdayStringsToWeekdays(selections)
 	if err != nil {
 		panic(err)
 	}
@@ -43,6 +34,23 @@ func (p *SelectWeekdaysPrompt) convertWeekdaysToStrings(weekdays []time.Weekday)
 		weekdayStrings = append(weekdayStrings, weekday.String())
 	}
 	return weekdayStrings
+}
+
+func (p *SelectWeekdaysPrompt) preparePrompt() *survey.MultiSelect {
+	return &survey.MultiSelect{
+		Default: p.convertWeekdaysToStrings(p.DefaultWeekdays),
+		Message: "Set the days on which the project can be deployed",
+		Options: p.convertWeekdaysToStrings(p.generateWeekdays()),
+	}
+}
+
+func (p *SelectWeekdaysPrompt) askUser(prompt *survey.MultiSelect) []string {
+	var selections []string
+	err := survey.AskOne(prompt, &selections)
+	if err != nil {
+		panic("Can't ask for days")
+	}
+	return selections
 }
 
 func (p *SelectWeekdaysPrompt) convertWeekdayStringsToWeekdays(weekdayStrings []string) ([]time.Weekday, error) {

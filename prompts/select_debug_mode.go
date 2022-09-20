@@ -8,7 +8,16 @@ type SelectDebugModePrompt struct {
 }
 
 func (p *SelectDebugModePrompt) Run() bool {
-	prompt := &survey.Confirm{Message: "Enable debug mode"}
+	prompt := p.preparePrompt()
+	choice := p.askUser(prompt)
+	return choice
+}
+
+func (p *SelectDebugModePrompt) preparePrompt() *survey.Confirm {
+	return &survey.Confirm{Message: "Enable debug mode"}
+}
+
+func (p *SelectDebugModePrompt) askUser(prompt *survey.Confirm) bool {
 	var choice bool
 	err := survey.AskOne(prompt, &choice)
 	if err != nil {

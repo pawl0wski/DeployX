@@ -28,7 +28,8 @@ func runScripts(cmd *cobra.Command, args []string) {
 func editScriptUsingTextEditorDefinedInConfig(script *models.Script) {
 	config := models.Config{}
 	config.GetFromDatabaseOrCreate()
-	editors.EditScript(script, config.TextEditor)
+	editor := editors.ScriptEditor{Script: script, TextEditor: config.TextEditor}
+	editor.Run()
 }
 
 func init() {

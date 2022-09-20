@@ -13,6 +13,7 @@ func EditProject(project *models.Project) {
 	projectPasswordPrompt := prompts.GetProjectPasswordPrompt{}
 	project.SetPassword(projectPasswordPrompt.Run())
 	deploymentConfiguration := project.DeploymentConfiguration
-	EditDeploymentConfiguration(&deploymentConfiguration)
+	deploymentConfigurationEditor := DeploymentConfigurationEditor{ConfigurationToEdit: &deploymentConfiguration}
+	deploymentConfigurationEditor.Run()
 	project.DeploymentConfiguration = deploymentConfiguration
 }
